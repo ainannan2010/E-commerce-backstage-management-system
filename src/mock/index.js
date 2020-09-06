@@ -1,8 +1,10 @@
 import Mock from 'mockjs'
-import getUser from './user'
+import getUser from './login'
+import getUserList from './user'
 
 const mocks = [
-  ...getUser
+  ...getUser,
+  ...getUserList
 ]
 // for mock server
 // const responseFake = (url, type, respond) => {
@@ -15,4 +17,4 @@ const mocks = [
 //   }
 // }
 
-mocks.map(route => Mock.mock(route.url, route.type, route.response))
+mocks.map(route => Mock.mock(new RegExp(`${route.url}`), route.type, route.response))

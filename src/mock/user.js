@@ -1,33 +1,39 @@
 import Mock from 'mockjs'
+import { transUrl } from '@/utils'
+
+// 自定义拓展
+Mock.Random.extend({
+  phone: function () {
+    var phonePrefixs = ['132', '135', '189', '139', '188', '187']
+    return this.pick(phonePrefixs) + Mock.mock(/\d{8}/)
+  }
+})
 
 const data = Mock.mock({
-  id: '@id',
-  collectionTime: '2019-07-16',
-  uuid: '@guid()'
-},
-)
+  "data|106": [
+    {
+      name: '@cname',
+      email: '@email',
+      'create_time|564577990837-2564577990837': 0,
+      phone: '@phone',
+      status: '@boolean'
+    }
+  ]
+})
 
 export default [
   {
-    url: '/login',
-    type: 'post',
+    url: '/users',
+    type: 'get',
     response: (req, res) => {
-      const { userName, pwd } = JSON.parse(req.body)
-      if (userName !== 'yangwuc' || pwd !== "123") {
-        return {
-          data: {},
-          code: 1,
-          success: false,
-          message: '用户名和密码不匹配'
-        }
-      }
-
+      const { pageNum, pageSize, query } = transUrl(req.url)
+      let start = (pageNum - 1) * pageSize
+      let count = pageNum * pageSize
+      let { data: dta } = data
+      let result = dta.slice(start, count)
       return {
-        data,
-        code: 0,
-        success: true,
-        message: '登录成功',
-        token: 'asdfgbnhjhyg@#$%^&*YUIsdfghj'
+        userList: result,
+        total: dta.length
       }
     }
   }

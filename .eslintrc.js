@@ -18,6 +18,8 @@ module.exports = {
     "no-unused-vars": 0,
     quotes: 0,
     camelcase: 0,
+    'prefer-const': 0,
+    'vue/no-unused-vars': 0,
   },
   overrides: [
     {

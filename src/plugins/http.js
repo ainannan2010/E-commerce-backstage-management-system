@@ -13,6 +13,8 @@ MyPlugin.install = function (Vue, options) {
   }
 
   axios.defaults.baseURL = 'http://localhost:9000'
+  let AUTH_TOKEN = localStorage.getItem('access_token')
+  axios.defaults.headers.common.Authorization = AUTH_TOKEN
   // const request = axios.create(baseOptions)
   // request.interceptors.request.use(
   //   config => {
