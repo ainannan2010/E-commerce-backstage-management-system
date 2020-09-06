@@ -17,6 +17,7 @@ module.exports = {
     "space-before-function-paren": 0,
     "no-unused-vars": 0,
     quotes: 0,
+    camelcase: 0,
   },
   overrides: [
     {

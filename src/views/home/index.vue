@@ -15,16 +15,65 @@
           <div class="subheading">通号后台管理系统</div>
         </el-col>
         <el-col :span="2">
-          <a href="#" class="loginout">退出</a>
+          <a href="#" class="loginout" @click.prevent="doLogout">退出</a>
         </el-col>
       </el-row>
     </el-header>
     <el-container>
-      <el-aside class="aside">Aside</el-aside>
+      <el-aside class="aside">
+        <el-menu unique-opened="true">
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-tickets"></i>
+              <span>导航一</span>
+            </template>
+            <el-menu-item index="1-4-1">
+              <i class="el-icon-location"></i>
+              <span>选项1</span>
+            </el-menu-item>
+            <el-menu-item index="1-4-2">
+              <i class="el-icon-location"></i>
+              <span>选项2</span>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-tickets"></i>
+              <span>导航2</span>
+            </template>
+            <el-menu-item index="2-4-1">
+              <i class="el-icon-location"></i>
+              <span>选项1</span>
+            </el-menu-item>
+            <el-menu-item index="2-4-2">
+              <i class="el-icon-location"></i>
+              <span>选项2</span>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
       <el-main>Main</el-main>
     </el-container>
   </el-container>
 </template>
+<script>
+export default {
+  beforeCreate() {
+    const access_token = localStorage.getItem('access_token')
+    if (!access_token) {
+      this.$router.push('/login')
+    }
+  },
+  methods: {
+    doLogout() {
+      localStorage.clear()
+      this.$message.success('退出成功')
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
 
 <style scoped lang='less'>
 * {
@@ -39,13 +88,13 @@
   .el-header {
     background-color: #fff;
     height: 60px;
-
+    margin-bottom: 2px;
     .logbox {
       display: flex;
       img {
         height: 60px;
       }
-      .titlebox{
+      .titlebox {
         margin-left: 5px;
         display: flex;
         justify-content: center;
@@ -75,7 +124,7 @@
   }
 
   .aside {
-    width: 250px!important;
+    width: 250px !important;
     background-color: #d3dce6;
     color: #333;
     text-align: center;
