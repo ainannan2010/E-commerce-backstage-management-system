@@ -5,11 +5,16 @@
 </template>
 
 <style lang="less">
+* {
+  text-decoration: none;
+  list-style: none;
+}
+
 html,
 body {
   height: 100%;
   padding: 0;
-  margin: 0
+  margin: 0;
 }
 
 #app {

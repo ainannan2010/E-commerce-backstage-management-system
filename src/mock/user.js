@@ -26,7 +26,8 @@ export default [
         data,
         code: 0,
         success: true,
-        message: 'success'
+        message: '登录成功',
+        token: 'asdfgbnhjhyg@#$%^&*YUIsdfghj'
       }
     }
   }

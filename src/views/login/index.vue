@@ -29,23 +29,22 @@ export default {
   },
   created() {},
   methods: {
-    doLogin() {
-      this.$http
-        .post('/login', this.formData)
-        .then((res) => {
-          const {
-            data: { data: dta, message, success },
-          } = res
-          if (success) {
-            this.$router.push('/')
-          } else {
-            console.log('***-this-*********:', this) // eslint-disable-line
-            this.$message.error(message)
-          }
-        })
-        .catch((err) => {
-          console.log('***-err-*********:', err) // eslint-disable-line
-        })
+    async doLogin() {
+      try {
+        const {
+          data: { data: dta, message, success, token },
+        } = await this.$http.post('/login', this.formData)
+
+        if (success) {
+          this.$message.success(message)
+          localStorage.setItem('access_token', token)
+          this.$router.push('/')
+        } else {
+          this.$message.error(message)
+        }
+      } catch (error) {
+        console.log('***-err-*********:', error)
+      }
     },
   },
 }
