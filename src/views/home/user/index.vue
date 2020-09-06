@@ -9,7 +9,16 @@
         <el-button type="success">添加用户</el-button>
       </el-col>
     </el-row>
-    <CustomTable :data-source="tableData.userList" :tableColumns="tableColumns" />
+    <CustomTable
+      :data-source="tableData.userList"
+      :tableColumns="tableColumns"
+      :height="550"
+      isShowPagination
+      :pages="queryData"
+      :total="tableData.total"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    />
   </el-card>
 </template>
 <script>
@@ -30,7 +39,7 @@ export default {
       },
       tableData: {
         userList: [],
-        total: 0
+        total: 0,
       },
       tableColumns: [
         { type: 'index', lable: '#', width: 50 },
@@ -53,6 +62,16 @@ export default {
       } catch (error) {
         console.log('***-error-*********:', error) // eslint-disable-line
       }
+    },
+    handleSizeChange(val) {
+      this.queryData.pageSize = val
+      this.getUserList()
+    },
+    handleCurrentChange(val) {
+      this.queryData.pageNum = val
+      setTimeout(async () => {
+        await this.getUserList()
+      })
     },
   },
   created() {
