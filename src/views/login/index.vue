@@ -32,15 +32,14 @@ export default {
     async doLogin() {
       try {
         const {
-          data: { data: dta, message, success, token },
+          data: { msg, success, token },
         } = await this.$http.post('/login', this.formData)
-
         if (success) {
-          this.$message.success(message)
+          this.$message.success(msg)
           localStorage.setItem('access_token', token)
           this.$router.push('/')
         } else {
-          this.$message.error(message)
+          this.$message.error(msg)
         }
       } catch (error) {
         console.log('***-err-*********:', error)

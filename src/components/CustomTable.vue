@@ -35,7 +35,14 @@
         >
           <template v-slot="scope">
             <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              size="mini"
+              plain
+              @click="doDelete(scope.row.id)"
+            ></el-button>
             <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
           </template>
         </el-table-column>
@@ -116,6 +123,9 @@ export default {
     },
     handleCurrentChange(val) {
       this.$emit('handleCurrentChange', val)
+    },
+    doDelete(id) {
+      this.$emit('doDelete', id)
     },
   },
 }

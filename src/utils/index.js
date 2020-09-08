@@ -5,7 +5,7 @@ export const transUrl = (url) => {
   const obj = {}
   for (let i = 0; i < arr.length; i++) {
     const arrs = arr[i].split("=")
-    obj[arrs[0]] = arrs[1]
+    obj[arrs[0]] = decodeURIComponent(arrs[1])
   }
   return obj
 }
