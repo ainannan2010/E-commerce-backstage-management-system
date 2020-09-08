@@ -34,7 +34,14 @@
           :key="item.lable"
         >
           <template v-slot="scope">
-            <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              size="mini"
+              plain
+              @click="showDialog(scope.row)"
+            ></el-button>
             <el-button
               type="danger"
               icon="el-icon-delete"
@@ -115,7 +122,7 @@ export default {
       default() {
         return true
       },
-    },
+    }
   },
   methods: {
     handleSizeChange(val) {
@@ -126,6 +133,9 @@ export default {
     },
     doDelete(id) {
       this.$emit('doDelete', id)
+    },
+    showDialog(payload) {
+      this.$emit('showDialog', payload)
     },
   },
 }

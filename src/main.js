@@ -20,7 +20,7 @@ Vue.prototype.$http = axios
 axios.defaults.baseURL = 'http://localhost:9999'
 
 // 全局过滤器
-Vue.filter('fmtDate', (v) => moment(v).format("YYYY-MM-DD"))
+Vue.filter('fmtDate', (v) => moment(v).format("YYYY-MM-DD HH:mm:ss"))
 
 new Vue({
   router,

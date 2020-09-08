@@ -22,7 +22,7 @@ Mock.Random.extend({
   }
 })
 let data = Mock.mock({
-  "data|2": [
+  "data|52": [
     {
       username: '@cname',
       email: '@email',
@@ -34,6 +34,40 @@ let data = Mock.mock({
   ]
 })
 let { data: dta } = data
+
+// 增
+Router.post('/', function (req, res) {
+  console.log('***-req.body-*********:', req.body) // eslint-disable-line
+  dta.unshift({ ...req.body, id: Mock.mock('@id'), create_time: Date.now() })
+  return res.json({ ...commonSuccessReply, msg: '新增成功!' })
+})
+
+// 删
+Router.delete('/:id', function (req, res) {
+  const { id } = req.params
+  let index = dta.findIndex(elt => elt.id === id)
+  if (index <= -1) {
+    return res.json({ ...commonFailReply, msg: '删除失败!' })
+  }
+
+  dta.splice(index, 1)
+  return res.json({ ...commonSuccessReply, msg: '删除成功!' })
+})
+
+// 改
+Router.put('/:id', function (req, res) {
+  const { id } = req.params
+  console.log('***-id-*********:', req.body) // eslint-disable-line
+  let index = dta.findIndex(elt => elt.id === id)
+  if (index <= -1) {
+    return res.json({ ...commonFailReply, msg: '修改失败!' })
+  }
+
+  dta.splice(index, 1, { ...dta[index], ...req.body })
+  return res.json({ ...commonSuccessReply, msg: '修改成功!' })
+})
+
+// 查
 Router.get('/', function (req, res) {
   const { pageNum, pageSize, query } = req.query
   let start = (pageNum - 1) * pageSize
@@ -50,22 +84,6 @@ Router.get('/', function (req, res) {
       total: filterArr.length
     }
   })
-})
-
-Router.post('/', function (req, res) {
-  dta.unshift({ ...req.body, id: Mock.mock('@id') })
-  return res.json({ ...commonSuccessReply, msg: '新增成功!' })
-})
-
-Router.delete('/:id', function (req, res) {
-  const { id } = req.params
-  let index = dta.findIndex(elt => elt.id === id)
-  if (index <= -1) {
-    return res.json({ ...commonFailReply, msg: '删除失败!' })
-  }
-
-  dta.splice(index, 1)
-  return res.json({ ...commonSuccessReply, msg: '删除成功!' })
 })
 
 export default Router

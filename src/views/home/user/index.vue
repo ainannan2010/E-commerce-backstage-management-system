@@ -14,6 +14,14 @@
     <!-- 添加用户 -->
     <AddUser :dialogFormVisible="dialogFormVisible" @closeDialog="closeDialog" @addUser="addUser" />
 
+    <!-- 编辑用户 -->
+    <EditUser
+      :dialogFormVisible="dialogFormVisibleEdit"
+      :editData="editData"
+      @closeDialog="closeDialog"
+      @editUser="editUser"
+    />
+
     <!-- 用户列表 -->
     <CustomTable
       :data-source="tableData.userList"
@@ -25,6 +33,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
       @doDelete="doDelete"
+      @showDialog="showDialog"
     />
   </el-card>
 </template>
@@ -32,12 +41,14 @@
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import CustomTable from '@/components/CustomTable.vue'
 import AddUser from '@/views/home/user/AddUser.vue'
+import EditUser from '@/views/home/user/EditUser.vue'
 
 export default {
   components: {
     Breadcrumb,
     CustomTable,
     AddUser,
+    EditUser,
   },
   data() {
     return {
@@ -50,7 +61,9 @@ export default {
         userList: [],
         total: 0,
       },
+      editData: { a: 21345 },
       dialogFormVisible: false,
+      dialogFormVisibleEdit: false,
       tableColumns: [
         { type: 'index', lable: '#', width: 50 },
         { prop: 'username', lable: '姓名', width: 80 },
@@ -109,6 +122,20 @@ export default {
         })
         .catch(() => {})
     },
+    showDialog(payload) {
+      this.editData = { ...payload }
+      this.dialogFormVisibleEdit = true
+    },
+    async editUser(payload) {
+      try {
+        const { data } = await this.$http.put(
+          `/users/${this.editData.id}`,
+          payload
+        )
+        this.$message.success(data.msg)
+        this.getUserList()
+      } catch (error) {}
+    },
     handleSizeChange(val) {
       this.queryData.pageSize = val
       this.getUserList()
@@ -124,6 +151,7 @@ export default {
     },
     closeDialog() {
       this.dialogFormVisible = false
+      this.dialogFormVisibleEdit = false
     },
   },
   created() {
