@@ -21,7 +21,7 @@
           :key="item.lable"
         >
           <template v-slot="scope">
-            <el-switch v-model="scope.row.status" active-color="red" inactive-color="#aaa"></el-switch>
+            <el-switch v-model="scope.row.status" active-color="red" inactive-color="#aaa" @change="handlechange(scope.row)"></el-switch>
           </template>
         </el-table-column>
 
@@ -136,6 +136,9 @@ export default {
     },
     showDialog(payload) {
       this.$emit('showDialog', payload)
+    },
+    handlechange(payload) {
+      this.$emit('changeUserStatus', payload)
     },
   },
 }

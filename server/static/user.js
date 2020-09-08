@@ -37,7 +37,6 @@ let { data: dta } = data
 
 // 增
 Router.post('/', function (req, res) {
-  console.log('***-req.body-*********:', req.body) // eslint-disable-line
   dta.unshift({ ...req.body, id: Mock.mock('@id'), create_time: Date.now() })
   return res.json({ ...commonSuccessReply, msg: '新增成功!' })
 })
@@ -57,13 +56,12 @@ Router.delete('/:id', function (req, res) {
 // 改
 Router.put('/:id', function (req, res) {
   const { id } = req.params
-  console.log('***-id-*********:', req.body) // eslint-disable-line
   let index = dta.findIndex(elt => elt.id === id)
   if (index <= -1) {
     return res.json({ ...commonFailReply, msg: '修改失败!' })
   }
 
-  dta.splice(index, 1, { ...dta[index], ...req.body })
+  dta[index] = { ...dta[index], ...req.body }
   return res.json({ ...commonSuccessReply, msg: '修改成功!' })
 })
 
@@ -76,6 +74,7 @@ Router.get('/', function (req, res) {
   let filterArr = dta.filter(elt => {
     return elt.username.includes(query)
   })
+
   let result = filterArr.slice(start, count)
   return res.json({
     ...commonSuccessReply,
@@ -84,6 +83,20 @@ Router.get('/', function (req, res) {
       total: filterArr.length
     }
   })
+})
+
+// 修改用户状态
+Router.put('/:id/state/:type', function (req, res) {
+  const { id, type } = req.params
+  let index = dta.findIndex(elt => elt.id === id)
+  if (index <= -1) {
+    return res.json({ ...commonFailReply, msg: '修改失败!' })
+  }
+
+  let pre = dta[index]
+  dta[index] = { ...pre, status: JSON.parse(type) } // 这里的需要把传过来的字符串布尔值转换为布尔值
+
+  return res.json({ ...commonSuccessReply, msg: '修改成功!' })
 })
 
 export default Router

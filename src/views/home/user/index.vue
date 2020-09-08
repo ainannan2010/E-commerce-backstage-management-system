@@ -34,6 +34,7 @@
       @handleCurrentChange="handleCurrentChange"
       @doDelete="doDelete"
       @showDialog="showDialog"
+      @changeUserStatus="changeUserStatus"
     />
   </el-card>
 </template>
@@ -78,22 +79,19 @@ export default {
   methods: {
     async getUserList() {
       try {
-        const {
-          data: { data: dta },
-        } = await this.$http.get(`/users`, {
+        const { data } = await this.$http.get(`/users`, {
           params: this.queryData,
         })
 
-        this.tableData = dta
+        this.tableData = data
       } catch (error) {
         console.log('***-error-*********:', error) // eslint-disable-line
       }
     },
     async addUser(payload) {
       try {
-        const { data } = await this.$http.post('/users', payload)
-
-        this.$message.success(data.msg)
+        const { msg } = await this.$http.post('/users', payload)
+        this.$message.success(msg)
         this.getUserList()
       } catch (error) {}
     },
@@ -105,9 +103,7 @@ export default {
       })
         .then(async () => {
           try {
-            const {
-              data: { msg },
-            } = await this.$http.delete(`/users/${id}`)
+            const { msg } = await this.$http.delete(`/users/${id}`)
             this.$message({
               type: 'success',
               message: msg,
@@ -128,11 +124,11 @@ export default {
     },
     async editUser(payload) {
       try {
-        const { data } = await this.$http.put(
+        const { msg } = await this.$http.put(
           `/users/${this.editData.id}`,
           payload
         )
-        this.$message.success(data.msg)
+        this.$message.success(msg)
         this.getUserList()
       } catch (error) {}
     },
@@ -148,6 +144,15 @@ export default {
     },
     doSearch() {
       this.getUserList()
+    },
+    async changeUserStatus(payload) {
+      try {
+        const { id, status } = payload
+        console.log('***-status-*********:', typeof(status)) // eslint-disable-line
+        const { msg } = await this.$http.put(`/users/${id}/state/${status}`)
+        this.getUserList()
+        this.$message.success(msg)
+      } catch (error) {}
     },
     closeDialog() {
       this.dialogFormVisible = false

@@ -31,9 +31,10 @@ export default {
   methods: {
     async doLogin() {
       try {
-        const {
-          data: { msg, success, token },
-        } = await this.$http.post('/login', this.formData)
+        const { msg, success, token } = await this.$http.post(
+          '/login',
+          this.formData
+        )
         if (success) {
           this.$message.success(msg)
           localStorage.setItem('access_token', token)

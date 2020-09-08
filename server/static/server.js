@@ -16,6 +16,7 @@ app.use(function (req, res, next) {
 app.use('/users', userRouter);
 app.use('/login', loginRouter);
 
+process.env.NODE_ENV = 'http://localhost:9999'
 app.listen('9999', () => {
-  console.log('监听端口 9999')
+  console.log(`App running at: \n- Local: ${process.env.NODE_ENV}  \n- you can be successful`)
 })
