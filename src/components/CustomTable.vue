@@ -21,7 +21,12 @@
           :key="item.lable"
         >
           <template v-slot="scope">
-            <el-switch v-model="scope.row.status" active-color="red" inactive-color="#aaa" @change="handlechange(scope.row)"></el-switch>
+            <el-switch
+              v-model="scope.row.status"
+              active-color="red"
+              inactive-color="#aaa"
+              @change="handlechange(scope.row)"
+            ></el-switch>
           </template>
         </el-table-column>
 
@@ -50,7 +55,14 @@
               plain
               @click="doDelete(scope.row.id)"
             ></el-button>
-            <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
+            <el-button
+              type="success"
+              icon="el-icon-check"
+              circle
+              size="mini"
+              plain
+              @click="showRoleDialog(scope.row)"
+            ></el-button>
           </template>
         </el-table-column>
 
@@ -122,7 +134,7 @@ export default {
       default() {
         return true
       },
-    }
+    },
   },
   methods: {
     handleSizeChange(val) {
@@ -136,6 +148,9 @@ export default {
     },
     showDialog(payload) {
       this.$emit('showDialog', payload)
+    },
+    showRoleDialog(payload) {
+      this.$emit('showRoleDialog', payload)
     },
     handlechange(payload) {
       this.$emit('changeUserStatus', payload)

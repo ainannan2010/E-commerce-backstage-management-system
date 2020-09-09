@@ -21,6 +21,14 @@ Mock.Random.extend({
     return this.pick(phonePrefixs) + Mock.mock(/\d{8}/)
   }
 })
+
+Mock.Random.extend({
+  role_id: function () {
+    var phonePrefixs = [10, 11, 12, 13, 14, 15]
+    return this.pick(phonePrefixs)
+  }
+})
+
 let data = Mock.mock({
   "data|52": [
     {
@@ -29,7 +37,8 @@ let data = Mock.mock({
       'create_time|564577990837-2564577990837': 0,
       mobile: '@mobile',
       status: '@boolean',
-      id: '@id'
+      id: '@id',
+      role_id: '@role_id'
     }
   ]
 })
@@ -95,6 +104,21 @@ Router.put('/:id/state/:type', function (req, res) {
 
   let pre = dta[index]
   dta[index] = { ...pre, status: JSON.parse(type) } // 这里的需要把传过来的字符串布尔值转换为布尔值
+
+  return res.json({ ...commonSuccessReply, msg: '修改成功!' })
+})
+
+// 修改用户角色
+Router.put('/:id/role', function (req, res) {
+  const { id } = req.params
+  const { role_id } = req.body
+  let index = dta.findIndex(elt => elt.id === id)
+  if (index <= -1) {
+    return res.json({ ...commonFailReply, msg: '修改失败!' })
+  }
+
+  let pre = dta[index]
+  dta[index] = { ...pre, role_id }
 
   return res.json({ ...commonSuccessReply, msg: '修改成功!' })
 })

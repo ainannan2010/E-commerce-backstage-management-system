@@ -22,6 +22,14 @@
       @editUser="editUser"
     />
 
+    <!-- 用户角色配置 -->
+    <SetUserRole
+      :dialogFormVisible="dialogFormVisibleRole"
+      :roleData="roleData"
+      @closeDialog="closeDialog"
+      @setRole="setRole"
+    />
+
     <!-- 用户列表 -->
     <CustomTable
       :data-source="tableData.userList"
@@ -34,6 +42,7 @@
       @handleCurrentChange="handleCurrentChange"
       @doDelete="doDelete"
       @showDialog="showDialog"
+      @showRoleDialog="showRoleDialog"
       @changeUserStatus="changeUserStatus"
     />
   </el-card>
@@ -43,6 +52,7 @@ import Breadcrumb from '@/components/Breadcrumb.vue'
 import CustomTable from '@/components/CustomTable.vue'
 import AddUser from '@/views/home/user/AddUser.vue'
 import EditUser from '@/views/home/user/EditUser.vue'
+import SetUserRole from '@/views/home/user/SetUserRole.vue'
 
 export default {
   components: {
@@ -50,6 +60,7 @@ export default {
     CustomTable,
     AddUser,
     EditUser,
+    SetUserRole,
   },
   data() {
     return {
@@ -62,9 +73,11 @@ export default {
         userList: [],
         total: 0,
       },
-      editData: { a: 21345 },
+      editData: {},
+      roleData: {},
       dialogFormVisible: false,
       dialogFormVisibleEdit: false,
+      dialogFormVisibleRole: false,
       tableColumns: [
         { type: 'index', lable: '#', width: 50 },
         { prop: 'username', lable: '姓名', width: 80 },
@@ -122,6 +135,10 @@ export default {
       this.editData = { ...payload }
       this.dialogFormVisibleEdit = true
     },
+    async showRoleDialog(payload) {
+      this.roleData = { ...payload }
+      this.dialogFormVisibleRole = true
+    },
     async editUser(payload) {
       try {
         const { msg } = await this.$http.put(
@@ -148,8 +165,17 @@ export default {
     async changeUserStatus(payload) {
       try {
         const { id, status } = payload
-        console.log('***-status-*********:', typeof(status)) // eslint-disable-line
         const { msg } = await this.$http.put(`/users/${id}/state/${status}`)
+        // this.getUserList() // 可以不调取，因为switch是视图可以改变数据的组件，相当于调取了数据源
+        this.$message.success(msg)
+      } catch (error) {}
+    },
+    async setRole(payload) {
+      try {
+        const { id, role_id } = payload
+        const { msg } = await this.$http.put(`/users/${id}`, {
+          role_id,
+        })
         this.getUserList()
         this.$message.success(msg)
       } catch (error) {}
@@ -157,6 +183,7 @@ export default {
     closeDialog() {
       this.dialogFormVisible = false
       this.dialogFormVisibleEdit = false
+      this.dialogFormVisibleRole = false
     },
   },
   created() {
