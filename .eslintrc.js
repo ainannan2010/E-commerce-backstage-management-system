@@ -12,7 +12,15 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'comma-dangle': 0,
+    "space-before-function-paren": 0,
+    "no-unused-vars": 0,
+    quotes: 0,
+    camelcase: 0,
+    semi: 0,
+    'prefer-const': 0,
+    'vue/no-unused-vars': 0,
   },
   overrides: [
     {
