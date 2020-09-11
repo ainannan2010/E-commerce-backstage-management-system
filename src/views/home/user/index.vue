@@ -1,6 +1,8 @@
 <template>
   <el-card class="box-card">
-    <Breadcrumb />
+    <!-- 面包屑 -->
+    <custom_breadcrumb level1="用户管理" level2="用户列表" />
+
     <!-- 搜索 -->
     <el-row>
       <el-col>
@@ -48,7 +50,6 @@
   </el-card>
 </template>
 <script>
-import Breadcrumb from '@/components/Breadcrumb.vue'
 import CustomTable from '@/components/CustomTable.vue'
 import AddUser from '@/views/home/user/AddUser.vue'
 import EditUser from '@/views/home/user/EditUser.vue'
@@ -56,7 +57,6 @@ import SetUserRole from '@/views/home/user/SetUserRole.vue'
 
 export default {
   components: {
-    Breadcrumb,
     CustomTable,
     AddUser,
     EditUser,
@@ -132,11 +132,11 @@ export default {
         .catch(() => {})
     },
     showDialog(payload) {
-      this.editData = { ...payload }
+      this.editData = { ...payload } // 浅拷贝一下
       this.dialogFormVisibleEdit = true
     },
     async showRoleDialog(payload) {
-      this.roleData = { ...payload }
+      this.roleData = { ...payload } // 浅拷贝一下
       this.dialogFormVisibleRole = true
     },
     async editUser(payload) {
@@ -195,7 +195,7 @@ export default {
 .box-card {
   height: 99%;
   .input-with-search {
-    margin: 10px 5px 10px 0;
+    margin: 0 5px 10px 0;
     width: 300px;
   }
 }

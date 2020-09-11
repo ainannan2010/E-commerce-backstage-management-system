@@ -9,3 +9,24 @@ export const transUrl = (url) => {
   }
   return obj
 }
+
+// 处理已选的权限
+export function getRightId(item, arr) {
+  if (item.children.length) {
+    item.children.forEach((item) => getRightId(item, arr))
+  } else {
+    arr.push(item.id)
+  }
+}
+
+export function getRightId2(data) {
+  return data.reduce((iter, val) => {
+    if (!val.children.length) {
+      iter.push(val.id)
+    }
+
+    return val.children.length
+      ? [...iter, ...getRightId2(val.children)]
+      : iter
+  }, [])
+}

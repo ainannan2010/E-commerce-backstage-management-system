@@ -10,11 +10,9 @@ MyPlugin.install = function (Vue) {
     // withCredentials: true, // send cookies when cross-domain requests
     timeout: 20 * 1000, // 超时,时长 ms
     cache: false, // 禁用缓存
-    // headers: {
-    //   common: {
-    //     Authorization: AUTH_TOKEN
-    //   }
-    // }
+    headers: {
+      Authorization: AUTH_TOKEN
+    }
   }
 
   const request = axios.create(baseOptions)

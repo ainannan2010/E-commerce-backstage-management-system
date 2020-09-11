@@ -42,6 +42,7 @@ let data = Mock.mock({
     }
   ]
 })
+
 let { data: dta } = data
 
 // 增

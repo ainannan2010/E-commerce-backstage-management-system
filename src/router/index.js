@@ -10,9 +10,19 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ '@/views/home/index.vue'),
     children: [
       {
-        path: '/user',
+        path: '/users',
         name: 'user',
         component: () => import(/* webpackChunkName: "home" */ '@/views/home/user/index.vue'),
+      },
+      {
+        path: '/roles',
+        name: 'roles',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/home/right/UserRole/UserRole.vue'),
+      },
+      {
+        path: '/rights',
+        name: 'right',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/home/right/UserRight/UserRight.vue'),
       }
     ]
   },
