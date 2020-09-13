@@ -20,10 +20,7 @@ export default {
     }
   },
   beforeCreate() {
-    const access_token = localStorage.getItem('access_token')
-    if (!access_token) {
-      this.$router.push('/login')
-    }
+
   },
   created() {
     this.getMenusList()

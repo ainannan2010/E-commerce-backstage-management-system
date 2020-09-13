@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { Message } from 'element-ui';
+import { getToken } from '@/utils/auth'
 
 Vue.use(VueRouter)
 
@@ -40,4 +42,18 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+    next()
+  } else {
+    const access_token = getToken()
+    if (!access_token) {
+      router.push('/login')
+      Message.warning('请先登录')
+      return
+    }
+  }
+
+  next()
+})
 export default router
