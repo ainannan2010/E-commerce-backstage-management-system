@@ -1,8 +1,9 @@
 // 处理权限的层级解构
-const getTrees = list => (
+// 处理list数据
+const getTrees = list => {
   list.map(elt => {
     let items = {}
-    elt.rights.forEach(item => {
+    elt.rightArr.forEach(item => {
       let key = item.parentId
       if (items[key]) {
         items[key].push(item)
@@ -13,10 +14,12 @@ const getTrees = list => (
     })
 
     elt.children = formatTrees(items)
-    return elt
-  }))
+  })
+  return list
+}
 
-const getTrees2 = list => {
+// 处理tree数据
+const getRightTree = list => {
   let items = {}
   list.map(elt => {
     let key = elt.parentId
@@ -46,6 +49,6 @@ function formatTrees(elts, pid) {
 
 export {
   getTrees,
-  getTrees2,
+  getRightTree,
   formatTrees
 }

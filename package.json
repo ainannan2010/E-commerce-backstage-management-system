@@ -8,8 +8,7 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "server": "cd server/static && nodemon start.js",
-    "dserver": "cd server/dynamic && nodemon server.js",
-    "node-serve": "nodemon server/index.js"
+    "dserver": "cd server/dynamic && nodemon server.js"
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -19,7 +18,7 @@
     "express": "^4.17.1",
     "fundebug-javascript": "^2.4.2",
     "fundebug-vue": "^0.0.1",
-    "loadsh": "^0.0.4",
+    "lodash": "^4.17.20",
     "moment": "^2.27.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

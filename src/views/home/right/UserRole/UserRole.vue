@@ -102,6 +102,7 @@ export default {
     },
     async showRoleDialog(payload) {
       const { data } = await this.$http.get('/rights/tree')
+      this.roleId = payload.id
       this.rightList = data
 
       // getRightId(payload, this.defaultRightList) // 获取默认展开选中项
@@ -111,8 +112,16 @@ export default {
     closeDialog() {
       this.setRoleDialogVisible = false
     },
-    async setRoleRight() {
-      this.closeDialog()
+    async setRoleRight(payload) {
+      try {
+        const { msg } = await this.$http.post(`/roles/${this.roleId}/rights`, {
+          pids: payload,
+        })
+
+        this.$message(msg)
+        this.getRoleList()
+        this.closeDialog()
+      } catch (error) {}
     },
     async removeRight(payload) {
       let [role, rightId] = payload

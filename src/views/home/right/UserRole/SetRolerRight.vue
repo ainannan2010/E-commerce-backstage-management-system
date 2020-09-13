@@ -1,8 +1,7 @@
 <template>
   <el-dialog title="设置权限" :visible.sync="dialogVisible" :before-close="handleClose">
-    <!-- "
-    -->
     <el-tree
+      ref="roleTree"
       :data="datasource"
       show-checkbox
       node-key="id"
@@ -68,13 +67,21 @@ export default {
     },
     async closeDialog() {
       await this.$emit('closeDialog')
-      this.form = {}
     },
     async handleSubmit() {
       try {
-        await this.$emit('setRoleRight', this.form)
+        let hrefChecked = this.$refs.roleTree.getHalfCheckedKeys() // 获取半选的key所在的数组
+        let allChecked = this.$refs.roleTree.getCheckedKeys() // 获取半选的key所在的数组
+
+        let checkArr = [
+          ...allChecked, // 获取全选的key所在的数组
+          ...hrefChecked,
+        ]
+        await this.$emit('setRoleRight', checkArr)
         this.closeDialog()
-      } catch (error) {}
+      } catch (error) {
+        console.log('***-error-*********:', error)
+      }
     },
   },
 }

@@ -1,7 +1,7 @@
 import express from "express"
 import Mock from "mockjs"
 import rightList from "./config"
-import { getTrees2 } from "../utils"
+import { getRightTree } from "../utils"
 
 const Router = express.Router();
 const commonSuccessReply = {
@@ -25,7 +25,7 @@ Router.get('/:type', function (req, res) {
     return res.json({ ...commonSuccessReply, data: { rightList, total: rightList.length } })
   }
 
-  let data = getTrees2(rightList)
+  let data = getRightTree(rightList)
   return res.json({ ...commonSuccessReply, data })
 })
 

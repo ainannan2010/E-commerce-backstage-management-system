@@ -30,7 +30,7 @@ Mock.Random.extend({
 })
 
 let data = Mock.mock({
-  "data|52": [
+  "data|8": [
     {
       username: '@cname',
       email: '@email',
